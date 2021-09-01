@@ -20,11 +20,11 @@ module.exports = {
         800: "#43484d",
         900: "#3c3c3c",
       },
-      blue: {
-        100: "#fff8f9",
-        200: "#5089C6", // Light button
-        500: "#035397",
-        700: "#001E6C", // gradient
+      green: {
+        100: "#80ED99",
+        200: "#57CC99", // Light button
+        500: "#38A3A5",
+        700: "#22577A", // gradient
       },
       purple: {
         100: "#f1e8ff", // Light button

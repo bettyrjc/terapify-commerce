@@ -1,0 +1,32 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.gradient {
+  @apply bg-gradient-to-r from-green-200 via-green-500 to-green-700 h-full text-white;
+}
+.btnTransitionHover {
+  -webkit-transition: background-color 0.1s 0.5s, color 0.1s 0.5s;
+  transition: background-color 0.1s 0.5s, color 0.1s 0.5s;
+  -webkit-animation: anim-moema-1 0.5s forwards;
+  animation: anim-moema-1 0.5s forwards;
+}
+.primary-button-full {
+  @apply text-white bg-gradient-to-r from-green-200 via-green-500 to-green-700 h-12 w-full rounded-md;
+  &:hover {
+    @apply text-white bg-gradient-to-r from-green-700 via-green-500 to-green-200 h-12 w-full rounded-md;
+    animation-duration: 0.3s;
+    box-shadow: 0 10px 16px 0 rgba(27, 31, 51, 0.32);
+    animation-direction: alternate;
+    animation-delay: 2s;
+  }
+  &:disabled {
+    @apply bg-gradient-to-r from-gray-300 to-gray-300 shadow-none;
+  }
+}
+.container{
+  min-width: 100vw !important;
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr auto;
+}
