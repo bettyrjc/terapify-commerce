@@ -17,6 +17,12 @@ import {
   IoChevronForwardCircleOutline,
 } from "react-icons/io5";
 
+const Component = ({ children }) => (
+  <div
+    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 "
+  >{children}</div>
+)
+
 const Home = ({ products, getProducts }) => {
   const BREAKPOINTS = [
     { width: 1, itemsToShow: 1 },
@@ -65,6 +71,30 @@ const Home = ({ products, getProducts }) => {
     );
   }, []);
 
+  function renderProducts (products) {
+    let arrayElements = []
+
+    for(let i = 0; i < products.length; i++) {
+
+      if (i % 3 == 2 || i === products.length - 1) {
+        arrayElements.push(
+          <Component>
+            <Card data={products[i - 2]} />
+            <Card data={products[i - 1]} />
+            <Card data={products[i]} />
+          </Component>
+        )
+      }
+    }
+
+    
+    return (
+      <Carousel renderArrow={myArrow} breakPoints={BREAKPOINTS}>
+        {arrayElements}
+      </Carousel>
+    ) 
+  }
+
   return (
     <Main shoppingCarInHeader={productsInCar}>
       <div className="h-full">
@@ -89,20 +119,7 @@ const Home = ({ products, getProducts }) => {
         </div>
         <div>
           <h1 className="text-green-700 text-2xl"> Productos mas vendidos</h1>
-          <Carousel renderArrow={myArrow} breakPoints={BREAKPOINTS}>
-            {products?.products?.length > 0
-              ? products.products.map((product, index) => (
-                  <div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 "
-                    key={index}
-                  >
-                    <Card data={product} />
-                    <Card data={product} />
-                    <Card data={product} />
-                  </div>
-                ))
-              : "cargando..."}
-          </Carousel>
+          {renderProducts(products.products)}
         </div>
       </div>
     </Main>
