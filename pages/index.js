@@ -1,61 +1,43 @@
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { getProducts } from "Src/store/actions/products";
 import { toast } from "react-toastify";
-import Main from "Components/Main";
+import { useCallback } from "react";
+import Carousel, { consts } from "react-elastic-carousel";
 
-import Banner from "Components/Banner";
 import Image from "next/image";
 
+import Main from "Components/Main";
+import Banner from "Components/Banner";
 import Card from "Components/utils/card";
+import CardInfo from "Components/utils/cardInfo";
 import CarouselComponent from "Src/components/CarouselComponent";
-import { useCallback } from "react";
 
-import Carousel, { consts } from "react-elastic-carousel";
+import { getProducts, getProductsByCategory } from "Src/store/actions/products";
+
 import {
   IoChevronBackCircleOutline,
   IoChevronForwardCircleOutline,
 } from "react-icons/io5";
 
 const Component = ({ children }) => (
-  <div
-    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 "
-  >{children}</div>
-)
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+    {children}
+  </div>
+);
+const BREAKPOINTS = [
+  { width: 1, itemsToShow: 1 },
+  { width: 550, itemsToShow: 1 },
+  { width: 768, itemsToShow: 1 },
+  { width: 1200, itemsToShow: 1 },
+];
 
-const Home = ({ products, getProducts }) => {
-  const BREAKPOINTS = [
-    { width: 1, itemsToShow: 1 },
-    { width: 550, itemsToShow: 1 },
-    { width: 768, itemsToShow: 1 },
-    { width: 1200, itemsToShow: 1 },
-  ];
-
-  const productsInLocal =
-    process.browser && JSON.parse(localStorage.getItem("productsInCar"));
-
-  const [productsInCar, setProductsInCar] = useState(productsInLocal || []);
-
+const Home = ({ products, getProducts, getProductsByCategory }) => {
   useEffect(() => {
     getProducts();
+    getProductsByCategory("jewelery");
+    getProductsByCategory("women's clothing");
+    getProductsByCategory("electronics");
   }, []);
-
-  // const setProductsInShoppingCar = (e, product) => {
-  //   const validateIfExist = productsInCar.some(
-  //     (productInCar) => productInCar.id === product.id
-  //   );
-  //   if (!validateIfExist) {
-  //     setProductsInCar([...productsInCar, product]);
-  //     localStorage.setItem(
-  //       "productsInCar",
-  //       JSON.stringify([...productsInCar, product])
-  //     );
-  //     toast.success("🥰 Añadiendo al carrito");
-  //   } else {
-  //     toast.info("🤓 Ya tienes este producto en tu carrito");
-  //   }
-  // };
-  console.log(products.products);
 
   const myArrow = useCallback(({ type, onClick, isEdge }) => {
     const pointer =
@@ -71,11 +53,10 @@ const Home = ({ products, getProducts }) => {
     );
   }, []);
 
-  function renderProducts (products) {
-    let arrayElements = []
+  function renderProducts(products) {
+    let arrayElements = [];
 
-    for(let i = 0; i < products.length; i++) {
-
+    for (let i = 0; i < products.length; i++) {
       if (i % 3 == 2 || i === products.length - 1) {
         arrayElements.push(
           <Component>
@@ -83,25 +64,24 @@ const Home = ({ products, getProducts }) => {
             <Card data={products[i - 1]} />
             <Card data={products[i]} />
           </Component>
-        )
+        );
       }
     }
 
-    
     return (
       <Carousel renderArrow={myArrow} breakPoints={BREAKPOINTS}>
         {arrayElements}
       </Carousel>
-    ) 
+    );
   }
 
   return (
-    <Main shoppingCarInHeader={productsInCar}>
+    <Main>
       <div className="h-full">
         <Banner />
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 px-24"
-          style={{ marginTop: "-30rem" }}
+          className="grid grid-cols-1 sm:grid-cols-2 px-24 "
+          style={{ marginTop: "-30rem", marginBottom: "10rem" }}
         >
           <div>
             <p className="leading-tight text-white font-black xs:text-2xl md:text-5xl capitalize">
@@ -117,9 +97,38 @@ const Home = ({ products, getProducts }) => {
 
           <CarouselComponent />
         </div>
-        <div>
-          <h1 className="text-green-700 text-2xl"> Productos mas vendidos</h1>
-          {renderProducts(products.products)}
+        <div className="mx-8 mt-20">
+          <h1 className="text-green-700 text-2xl ml-4 mb-4 font-bold">
+            Productos mas vendidos
+          </h1>
+          {renderProducts(products?.products)}
+        </div>
+
+        <CardInfo />
+
+        <h1
+          style={{ fontSize: "3rem" }}
+          className="text-green-200 mt-10 border-b-2 border-green-200 mx-8 pb-6 font-extrabold ml-6 text-center my-10"
+        >
+          Categorias
+        </h1>
+        <div className="mx-8 mt-4">
+          <h1 className="text-green-700 text-2xl ml-6 tracking-wider mb-4 font-bold">
+            Jewelry
+          </h1>
+          {renderProducts(products.productsByJewelry)}
+        </div>
+        <div className="mx-8 mt-4">
+          <h1 className="text-green-700 text-2xl ml-6 tracking-wider mb-4 font-bold">
+            Womens clothing
+          </h1>
+          {renderProducts(products.productsByWomen)}
+        </div>
+        <div className="mx-8 mt-4">
+          <h1 className="text-green-700 text-2xl ml-6 tracking-wider mb-4 font-bold">
+            Electronic
+          </h1>
+          {renderProducts(products.productsByElectronic)}
         </div>
       </div>
     </Main>
@@ -132,7 +141,7 @@ const mapStateToProperties = (state) => {
 
 const mapDispatchToProperties = (dispatch) => ({
   getProducts: () => dispatch(getProducts()),
-  pushInShoppingCar: (data) => dispatch(pushInShoppingCar(data)),
+  getProductsByCategory: (params) => dispatch(getProductsByCategory(params)),
 });
 
 export default connect(mapStateToProperties, mapDispatchToProperties)(Home);

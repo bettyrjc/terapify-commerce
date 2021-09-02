@@ -4,10 +4,10 @@ import Image from "next/image";
 const card = ({ data, setProductsInShoppingCar }) => {
   return (
     <>
-      <div className="sm:mt-2 md:mt-0 w-full h-auto bg-white shadow-md p-4 rounded-sm flex flex-col justify-between ">
+      <div className="sm:mt-2 md:mt-0 w-full h-auto bg-white shadow-lg p-4 rounded-sm flex flex-col justify-between ">
         <div>
           <div className="p-4 flex item-center justify-cente">
-            <div className="bg-red-500 w-full h-32 w-32 ">
+            <div className="w-full h-32">
               <img
                 src={`${data.image}`}
                 alt={data.title}
@@ -24,7 +24,7 @@ const card = ({ data, setProductsInShoppingCar }) => {
 
         <button
           className="primary-button-full btnTransitionHover"
-          onClick={(e) => setProductsInShoppingCar(e, data)}
+          onClick={(e) => {console.log(e)}}
         >
           Agregar
         </button>
