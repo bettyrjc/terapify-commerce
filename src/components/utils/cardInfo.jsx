@@ -1,14 +1,13 @@
 import React from "react";
 import { descriptionCard } from "Src/store/mock";
-const cardInfo = () => {
-  console.log("descriptionCard", descriptionCard);
+const cardInfo = ({ title }) => {
   return (
     <div className="mx-10">
       <h2
         style={{ fontSize: "3rem" }}
         className="text-green-200 mt-10 border-b-2 border-green-200 mx-8 pb-6 font-extrabold ml-6 text-center my-10"
       >
-        Be a fiel client
+        {title}
       </h2>
       <div className="grid grid-cols-3 gap-3">
         {descriptionCard.map((data) => {

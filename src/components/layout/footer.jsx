@@ -1,7 +1,9 @@
 import React from "react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
-const footer = () => {
+const Footer = () => {
+  let router = useRouter();
   return (
     <div className="gradient h-24 w-full px-4 py-8">
       <div className="sm:flex item-center justify-between">
@@ -18,28 +20,15 @@ const footer = () => {
           </p>
         </div>
 
-        <div className="h-full pr-4">
-          <ul>
-            <li className="mt-2">
-              <Link href="#">
-                <a>Home</a>
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link href="#">
-                <a>Headphones</a>
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link href="#">
-                <a>Speakers</a>
-              </Link>
-            </li>
-            <li className="mt-2">
-              <Link href="#">
-                <a>Earphones</a>
-              </Link>
-            </li>
+        <div className="h-fullpr-4">
+          <ul className="mr-4">
+            {router.locales.map((locale) => (
+              <li className="mt-2 text-base  w-24 " key="locale">
+                <Link href={router.asPath} locale={locale}>
+                  <a>{locale}</a>
+                </Link>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -48,4 +37,4 @@ const footer = () => {
   );
 };
 
-export default footer;
+export default Footer;

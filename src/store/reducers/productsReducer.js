@@ -12,7 +12,7 @@ const initialState = {
   productsByJewelry: [],
   productsByMen: [],
   productsByWomen: [],
-  loading: false,
+  loading: true,
   error: false,
 };
 
