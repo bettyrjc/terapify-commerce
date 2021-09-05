@@ -1,9 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 
 const Footer = () => {
   let router = useRouter();
+  let { t } = useTranslation();
+  const languages = t("common:languages");
+
   return (
     <div className="gradient h-24 w-full px-4 py-8">
       <div className="sm:flex item-center justify-between">
@@ -21,6 +25,7 @@ const Footer = () => {
         </div>
 
         <div className="h-fullpr-4">
+          <h1 className="text-white font-lg">{languages}</h1>
           <ul className="mr-4">
             {router.locales.map((locale) => (
               <li className="mt-2 text-base  w-24 " key="locale">

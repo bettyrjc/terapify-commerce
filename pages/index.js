@@ -88,7 +88,7 @@ const Home = ({ products, getProducts, getProductsByCategory }) => {
       {products.loading ? (
         <div className="flex justify-center mt-4 items-center h-screen">
           <Loader
-            type="Puff"
+            type="ThreeDots"
             color="#80ED99"
             height={200}
             width={200}
